@@ -1,9 +1,13 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\EventController;
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\EventDetailController;
+use App\Http\Controllers\AdminRoleManagementController;
+use App\Http\Controllers\NormalUserRoleManagementController;
+use App\Http\Controllers\EventManagerRoleManagementController;
+use App\Http\Controllers\PhotographerRoleManagementController;
 
 /*
 |--------------------------------------------------------------------------
@@ -32,28 +36,65 @@ Route::middleware('auth')->group(function () {
 
  // Configuration: Event Routes
 Route::controller(EventController::class)
- ->prefix('configuration/event')
- ->name('eventconfig.')
- ->group(function () {
-     Route::get('/', 'index')->name('index');  // List events
-     Route::get('/create', 'create')->name('create');  // Event creation form
-     Route::post('/', 'store')->name('store');  // Store new event
-     Route::get('/{event}/edit', 'edit')->name('edit');  // Edit event form
-     Route::put('/{event}', 'update')->name('update');  // Update event
-     Route::delete('/{event}', 'delete')->name('delete');  // Delete event
- });
+    ->prefix('configuration/event')
+    ->name('eventconfig.')
+    ->group(function () {
+        Route::get('/', 'index')->name('index');  // List events
+        Route::get('/create', 'create')->name('create');  // Event creation form
+        Route::post('/', 'store')->name('store');  // Store new event
+        Route::get('/{event}/edit', 'edit')->name('edit');  // Edit event form
+        Route::put('/{event}', 'update')->name('update');  // Update event
+        Route::delete('/{event}', 'delete')->name('delete');  // Delete event
+    });
 
- Route::controller(EventDetailController::class)
- ->prefix('events')
- ->name('eventdetails.')
- ->group(function () {
-     Route::get('/', 'index')->name('index');  // List all event details
-     Route::get('/{event}', 'show')->name('show');  // Show event details
-     Route::post('/{event}/assign', 'assignPhotographer')->name('assign');  // Assign photographer
+Route::controller(EventDetailController::class)
+    ->prefix('events')
+    ->name('eventdetails.')
+    ->group(function () {
+        Route::get('/', 'index')->name('index');  // List all event details
+        Route::get('/{event}', 'show')->name('show');  // Show event details
+        Route::post('/{event}/assign', 'assignPhotographer')->name('assign');  // Assign photographer
+        Route::post('/{event}/upload', 'uploadPhotos')->name('upload');  // Assign photographer
 
-     // Remove photographer route
-     Route::delete('/{event}/remove-photographer/{photographer}', 'removePhotographer')->name('removePhotographer');  // Remove photographer
- });
+        // Remove photographer route
+        Route::delete('/{event}/remove-photographer/{photographer}', 'removePhotographer')->name('removePhotographer');  // Remove photographer
+    });
+
+
+// Role management routes
+Route::middleware('auth', 'admin')->prefix('user-role-managements/')->name('role.management.')->group(function () {
+    // For admin
+    Route::prefix('admin')->name('admin.')->group(function () {
+        Route::get('/', [AdminRoleManagementController::class, 'index'])->name('index');
+        Route::get('/create', [AdminRoleManagementController::class, 'create'])->name('create');
+        Route::post('/store', [AdminRoleManagementController::class, 'store'])->name('store');
+        Route::delete('/{id}', [AdminRoleManagementController::class, 'destroy'])->name('destroy');
+    });
+
+    // For event manager
+    Route::prefix('event-manager')->name('event.manager.')->group(function () {
+        Route::get('/', [EventManagerRoleManagementController::class, 'index'])->name('index');
+        Route::get('/create', [EventManagerRoleManagementController::class, 'create'])->name('create');
+        Route::post('/store', [EventManagerRoleManagementController::class, 'store'])->name('store');
+        Route::delete('/{id}', [EventManagerRoleManagementController::class, 'destroy'])->name('destroy');
+    });
+
+    // For photographer
+    Route::prefix('photographer')->name('photographer.')->group(function () {
+        Route::get('/', [PhotographerRoleManagementController::class, 'index'])->name('index');
+        Route::get('/create', [PhotographerRoleManagementController::class, 'create'])->name('create');
+        Route::post('/store', [PhotographerRoleManagementController::class, 'store'])->name('store');
+        Route::delete('/{id}', [PhotographerRoleManagementController::class, 'destroy'])->name('destroy');
+    });
+
+    // For normal user
+    Route::prefix('normal-user')->name('normal.user.')->group(function () {
+        Route::get('/', [NormalUserRoleManagementController::class, 'index'])->name('index');
+        Route::get('/create', [NormalUserRoleManagementController::class, 'create'])->name('create');
+        Route::post('/store', [NormalUserRoleManagementController::class, 'store'])->name('store');
+        Route::delete('/{id}', [NormalUserRoleManagementController::class, 'destroy'])->name('destroy');
+    });
+});
 
 
 // useless routes

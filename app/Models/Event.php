@@ -2,8 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\Image;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Event extends Model
 {
@@ -19,6 +20,11 @@ class Event extends Model
     public function photographers()
     {
         return $this->belongsToMany(Photographer::class, 'event_photographers');
+    }
+
+    public function images()
+    {
+        return $this->hasMany(Image::class);
     }
 
 }
