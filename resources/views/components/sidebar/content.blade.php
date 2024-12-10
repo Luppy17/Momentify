@@ -27,36 +27,38 @@
     </x-sidebar.link>
 
     {{-- User Dropdown --}}
-    <x-sidebar.dropdown
-        title="User"
-        :active="Str::startsWith(request()->route()->uri(), 'user')"
-    >
-        <x-slot name="icon">
-            <x-heroicon-o-user class="flex-shrink-0 w-6 h-6" aria-hidden="true" />
-        </x-slot>
+    @if(auth()->user()->is_admin == 1)
+        <x-sidebar.dropdown
+            title="Users and Roles"
+            :active="Str::startsWith(request()->route()->uri(), 'user-role-managements')"
+        >
+            <x-slot name="icon">
+                <x-heroicon-o-user class="flex-shrink-0 w-6 h-6" aria-hidden="true" />
+            </x-slot>
 
-        <x-sidebar.link
-            title="Admin"
-            {{-- href="{{ route('user.admin') }}" --}}
-            :active="request()->routeIs('user.admin')"
-        />
-        <x-sidebar.link
-            title="Event Manager"
-            {{-- href="{{ route('user.event-manager') }}" --}}
-            :active="request()->routeIs('user.event-manager')"
-        />
-        <x-sidebar.link
-            title="Photographer List"
-            {{-- href="{{ route('photographer.index') }}" --}}
-            :active="request()->routeIs('photographer.index')" 
-        />  
+            <x-sidebar.link
+                title="Admin"
+                href="{{ route('role.management.admin.index') }}"
+                :active="request()->routeIs('role.management.admin.index')"
+            />
+            <x-sidebar.link
+                title="Event Manager"
+                href="{{ route('role.management.event.manager.index') }}"
+                :active="request()->routeIs('role.management.event.manager.index')"
+            />
+            <x-sidebar.link
+                title="Photographer"
+                href="{{ route('role.management.photographer.index') }}"
+                :active="request()->routeIs('role.management.photographer.index')"
+            />
 
-        <x-sidebar.link
-            title="User"
-            {{-- href="{{ route('user.general') }}" --}}
-            :active="request()->routeIs('user.general')"
-        />
-    </x-sidebar.dropdown>
+            <x-sidebar.link
+                title="User"
+                href="{{ route('role.management.normal.user.index') }}"
+                :active="request()->routeIs('role.management.normal.user.index')"
+            />
+        </x-sidebar.dropdown>
+    @endif
 
     {{-- Configuration Dropdown --}}
     <x-sidebar.dropdown
