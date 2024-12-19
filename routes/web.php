@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\MomentifyController;
 use App\Http\Controllers\EventDetailController;
 use App\Http\Controllers\AdminRoleManagementController;
 use App\Http\Controllers\NormalUserRoleManagementController;
@@ -24,7 +25,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/dashboard', function () {
+Route::middleware('auth')->get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
@@ -35,7 +36,8 @@ Route::middleware('auth')->group(function () {
 });
 
  // Configuration: Event Routes
-Route::controller(EventController::class)
+Route::middleware('auth', 'adminManager')
+    ->controller(EventController::class)
     ->prefix('configuration/event')
     ->name('eventconfig.')
     ->group(function () {
@@ -47,7 +49,8 @@ Route::controller(EventController::class)
         Route::delete('/{event}', 'delete')->name('delete');  // Delete event
     });
 
-Route::controller(EventDetailController::class)
+Route::middleware('auth', 'adminManagerPhotographer')
+    ->controller(EventDetailController::class)
     ->prefix('events')
     ->name('eventdetails.')
     ->group(function () {
@@ -58,6 +61,14 @@ Route::controller(EventDetailController::class)
 
         // Remove photographer route
         Route::delete('/{event}/remove-photographer/{photographer}', 'removePhotographer')->name('removePhotographer');  // Remove photographer
+    });
+
+Route::middleware('auth', 'adminUser')
+    ->controller(MomentifyController::class)
+    ->prefix('momentify')
+    ->name('momentify.')
+    ->group(function () {
+        Route::get('/', 'index')->name('index');  // List all event details
     });
 
 
