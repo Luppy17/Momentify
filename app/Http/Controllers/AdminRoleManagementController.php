@@ -43,8 +43,8 @@ class AdminRoleManagementController extends Controller
     public function destroy($id)
     {
         $admin = User::find($id);
-        $admin->delete();
+        $admin->update(['status' => 'inactive']);
 
-        return redirect()->route('role.management.admin.index')->with('success', 'Admin deleted successfully!');
+        return redirect()->route('role.management.admin.index')->with('success', 'Admin access disabled successfully!');
     }
 }

@@ -58,9 +58,9 @@
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit"
-                                        class="bg-red-500 text-white text-sm px-4 py-2 rounded-lg shadow hover:bg-red-600 transition"
-                                        onclick="return confirm('Are you sure you want to delete this event manager?')">
-                                    Delete
+                                        class="{{ $manager->status === 'active' ? 'bg-red-500 hover:bg-red-600' : 'bg-green-500 hover:bg-green-600' }} text-white text-sm px-4 py-2 rounded-lg shadow transition"
+                                        onclick="return confirm('Are you sure you want to {{ $manager->status === 'active' ? 'deactivate' : 'activate' }} this event manager?')">
+                                    {{ $manager->status === 'active' ? 'Deactivate' : 'Activate' }}
                                 </button>
                             </form>
                         </td>

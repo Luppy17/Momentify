@@ -31,19 +31,20 @@
         x-cloak
     >
         <div class="min-h-screen text-gray-900 bg-gray-100 dark:bg-dark-eval-0 dark:text-gray-200">
-            <!-- Sidebar -->
-            <x-sidebar.sidebar />
+            <!-- Sidebar - Only show for admin, manager, or photographer -->
+            @if(auth()->check() && (auth()->user()->is_admin == 1 || auth()->user()->is_event_manager == 1 || auth()->user()->is_photographer == 1))
+                <x-sidebar.sidebar />
+            @endif
 
             <!-- Page Wrapper -->
             <div
                 class="flex flex-col min-h-screen"
                 :class="{
-                    'lg:ml-64': isSidebarOpen,
-                    'md:ml-16': !isSidebarOpen
+                    'lg:ml-64': isSidebarOpen && ({{ auth()->user()->is_admin ?? 0 }} == 1 || {{ auth()->user()->is_event_manager ?? 0 }} == 1 || {{ auth()->user()->is_photographer ?? 0 }} == 1),
+                    'md:ml-16': !isSidebarOpen && ({{ auth()->user()->is_admin ?? 0 }} == 1 || {{ auth()->user()->is_event_manager ?? 0 }} == 1 || {{ auth()->user()->is_photographer ?? 0 }} == 1)
                 }"
                 style="transition-property: margin; transition-duration: 150ms;"
             >
-
                 <!-- Navbar -->
                 <x-navbar />
 

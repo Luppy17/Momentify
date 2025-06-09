@@ -49,8 +49,9 @@ class PhotographerRoleManagementController extends Controller
     public function destroy($id)
     {
         $photographer = User::find($id);
-        $photographer->delete();
+        $photographer->update(['status' => $photographer->status === 'active' ? 'inactive' : 'active']);
 
-        return redirect()->route('role.management.photographer.index')->with('success', 'Photographer deleted successfully!');
+        $message = $photographer->status === 'active' ? 'activated' : 'deactivated';
+        return redirect()->route('role.management.photographer.index')->with('success', "Photographer {$message} successfully!");
     }
 }

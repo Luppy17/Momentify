@@ -26,6 +26,7 @@ class User extends Authenticatable
         'is_event_manager',
         'is_photographer',
         'is_user',
+        'status',
     ];
 
     /**

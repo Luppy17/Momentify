@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Edit Event') <!-- Adding a title section if your layout expects it -->
+@section('title', 'Edit Event')
 
 @section('content')
 <div class="container mx-auto p-6">
@@ -15,7 +15,7 @@
     </div>
 
     <!-- Edit Event Form -->
-    <form action="{{ route('eventconfig.update', $event->id) }}" method="POST" class="bg-white p-6 rounded shadow-md">
+    <form action="{{ route('eventconfig.update', $event->id) }}" method="POST" enctype="multipart/form-data" class="bg-white p-6 rounded shadow-md">
         @csrf
         @method('PUT')
 
@@ -41,6 +41,18 @@
             <label for="event_place" class="block text-gray-700">Event Place</label>
             <input type="text" name="event_place" id="event_place" value="{{ old('event_place', $event->event_place) }}" required
                    class="w-full mt-1 p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Enter event place">
+        </div>
+
+        <div class="mb-6">
+            <label for="cover_image" class="block text-gray-700">Cover Image</label>
+            <input type="file" name="cover_image" id="cover_image" accept="image/*"
+                   class="w-full mt-1 p-2 border rounded file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:text-sm file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100">
+            @if($event->cover_image)
+                <div class="mt-2">
+                    <p class="text-sm text-gray-600">Current Image:</p>
+                    <img src="{{ asset('storage/' . $event->cover_image) }}" alt="Cover Image" class="w-40 h-auto mt-1 rounded border">
+                </div>
+            @endif
         </div>
 
         <div class="flex justify-end">

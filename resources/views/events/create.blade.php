@@ -13,7 +13,7 @@
     </div>
 
     <!-- Create Event Form -->
-    <form action="{{ route('eventconfig.store') }}" method="POST" class="bg-white p-6 rounded shadow-md">
+    <form action="{{ route('eventconfig.store') }}" method="POST" enctype="multipart/form-data" class="bg-white p-6 rounded shadow-md">
         @csrf
         <div class="mb-4">
             <label for="event_name" class="block text-gray-700">Event Name</label>
@@ -37,6 +37,12 @@
             <label for="event_place" class="block text-gray-700">Event Place</label>
             <input type="text" name="event_place" id="event_place" required
                    class="w-full mt-1 p-2 border rounded" placeholder="Enter event place">
+        </div>
+
+        <div class="mb-6">
+            <label for="cover_image" class="block text-gray-700">Cover Image</label>
+            <input type="file" name="cover_image" id="cover_image" accept="image/*"
+                   class="w-full mt-1 p-2 border rounded file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:text-sm file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100">
         </div>
 
         <div class="flex justify-end">

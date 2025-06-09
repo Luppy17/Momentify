@@ -43,8 +43,9 @@ class EventManagerRoleManagementController extends Controller
     public function destroy($id)
     {
         $manager = User::find($id);
-        $manager->delete();
+        $manager->update(['status' => $manager->status === 'active' ? 'inactive' : 'active']);
 
-        return redirect()->route('role.management.event.manager.index')->with('success', 'Event Manager deleted successfully!');
+        $message = $manager->status === 'active' ? 'activated' : 'deactivated';
+        return redirect()->route('role.management.event.manager.index')->with('success', "Event Manager {$message} successfully!");
     }
 }
