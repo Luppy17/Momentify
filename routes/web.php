@@ -12,7 +12,7 @@ use App\Http\Controllers\EventManagerRoleManagementController;
 use App\Http\Controllers\PhotographerRoleManagementController;
 
 // Welcome Route with Events
-Route::get('/', [MomentifyController::class, 'welcome'])->name('');
+Route::get('/', [MomentifyController::class, 'welcome'])->name('welcome');
 
 // Dashboard Routes with Role-based Redirection
 Route::middleware(['auth', 'verified'])->group(function () {

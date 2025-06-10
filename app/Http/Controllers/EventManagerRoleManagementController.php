@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rules;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\AccountActivated;
 use Illuminate\Support\Facades\Hash;
 
 class EventManagerRoleManagementController extends Controller
@@ -34,7 +36,8 @@ class EventManagerRoleManagementController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-            'is_event_manager' => 1
+            'is_event_manager' => 1,
+            'status' => 'active',
         ]);
 
         return redirect()->route('role.management.event.manager.index')->with('success', 'Event Manager created successfully!');
@@ -46,6 +49,12 @@ class EventManagerRoleManagementController extends Controller
         $manager->update(['status' => $manager->status === 'active' ? 'inactive' : 'active']);
 
         $message = $manager->status === 'active' ? 'activated' : 'deactivated';
+
+        if ($manager->status === 'active') {
+            // Send email notification
+            Mail::to($manager->email)->send(new AccountActivated($manager));
+        }
+
         return redirect()->route('role.management.event.manager.index')->with('success', "Event Manager {$message} successfully!");
     }
 }
