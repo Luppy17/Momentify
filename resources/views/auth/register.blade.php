@@ -54,6 +54,7 @@
                             <option value="" disabled selected>{{ __('Select your role') }}</option>
                             <option value="event_manager" {{ old('role') == 'event_manager' ? 'selected' : '' }}>{{ __('Event Manager') }}</option>
                             <option value="photographer" {{ old('role') == 'photographer' ? 'selected' : '' }}>{{ __('Photographer') }}</option>
+                            <option value="user" {{ old('role') == 'user' ? 'selected' : '' }}>{{ __('User') }}</option>
                         </select>
                     </x-form.input-with-icon-wrapper>
                 </div>

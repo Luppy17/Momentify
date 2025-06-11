@@ -23,12 +23,12 @@
                     <div class="flex-shrink-0 flex items-center">
                         <a href="{{ url('/') }}" class="block">
                             <!-- Light mode logo -->
-                            <img src="{{ asset('images/momentify.png') }}" 
-                                 alt="Momentify Logo" 
+                            <img src="{{ asset('images/momentify.png') }}"
+                                 alt="Momentify Logo"
                                  class="h-8 w-auto block dark:hidden">
                             <!-- Dark mode logo -->
-                            <img src="{{ asset('images/momentify1.png') }}" 
-                                 alt="Momentify Logo" 
+                            <img src="{{ asset('images/momentify1.png') }}"
+                                 alt="Momentify Logo"
                                  class="h-8 w-auto hidden dark:block">
                         </a>
                     </div>
@@ -50,7 +50,7 @@
                             <!-- Logout Button -->
                             <form method="POST" action="{{ route('logout') }}" class="inline-flex">
                                 @csrf
-                                <button type="submit" 
+                                <button type="submit"
                                         class="inline-flex items-center px-4 py-2 border border-transparent rounded-md text-sm font-medium bg-gray-900 text-white dark:bg-white dark:text-gray-900 hover:bg-gray-800 dark:hover:bg-gray-100 transition-colors duration-200">
                                     Logout
                                 </button>
@@ -113,12 +113,12 @@
             <div class="relative">
                 <div class="relative h-[80vh] overflow-hidden">
                     <!-- Background Image -->
-                    <img 
-                        src="{{ asset('images/waterfall.jpeg') }}" 
+                    <img
+                        src="{{ asset('images/waterfall.jpeg') }}"
                         alt="Professional Photography"
                         class="absolute inset-0 w-full h-full object-cover"
                     >
-                    
+
                     <!-- Gradient Overlay -->
                     <div class="absolute inset-0 bg-gradient-to-r from-black/70 via-black/50 to-black/30">
                         <!-- Content -->
@@ -128,38 +128,38 @@
                                     Capture Your Special
                                     <span class="rgb-text">Moments</span>
                                 </h1>
-                                
-                                
+
+
                                 <p class="text-xl md:text-2xl text-gray-200 mb-8">
                                     Effortless photo search for any occasion using advanced face recognition technology.
                                 </p>
                                 <div class="flex flex-col sm:flex-row gap-4">
                                     @auth
                                         @if(auth()->user()->is_user == 1)
-                                            <a 
-                                                href="{{ route('momentify.index') }}" 
+                                            <a
+                                                href="{{ route('momentify.index') }}"
                                                 class="inline-flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-black bg-white hover:bg-gray-100 transition duration-300 ease-in-out"
                                             >
                                                 Go to Momentify
                                             </a>
                                         @else
-                                            <a 
-                                                href="{{ url('/dashboard') }}" 
+                                            <a
+                                                href="{{ url('/dashboard') }}"
                                                 class="inline-flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-black bg-white hover:bg-gray-100 transition duration-300 ease-in-out"
                                             >
                                                 Go to Dashboard
                                             </a>
                                         @endif
                                     @else
-                                        <a 
-                                            href="{{ route('register') }}" 
+                                        <a
+                                            href="{{ route('register') }}"
                                             class="inline-flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-black bg-white hover:bg-gray-100 transition duration-300 ease-in-out"
                                         >
                                             Get Started
                                         </a>
                                     @endauth
-                                    <a 
-                                        href="#services" 
+                                    <a
+                                        href="#services"
                                         class="inline-flex items-center justify-center px-8 py-3 border-2 border-white text-base font-medium rounded-md text-white hover:bg-white hover:text-black transition duration-300 ease-in-out smooth-scroll"
                                     >
                                         Our Services
@@ -192,20 +192,21 @@
                 @foreach($events as $event)
                 <div class="bg-gray-50 dark:bg-gray-700 rounded-lg overflow-hidden shadow-lg transition-transform hover:scale-105">
                     <div class="aspect-w-16 aspect-h-9">
-                        <img 
-                            src="{{ $event->cover_image ? asset('storage/' . $event->cover_image) : asset('images/event-default.jpg') }}" 
+                        {{ $event->cover_image }}
+                        <img
+                            src="{{ $event->cover_image ? asset('storage/' . $event->cover_image) : asset('images/event-default.jpg') }}"
                             alt="{{ $event->event_name }}"
                             class="w-full h-48 object-cover"
                         >
                     </div>
-                    
+
                     <div class="p-6">
                         <div class="flex justify-between items-start mb-2">
                             <h3 class="text-xl font-semibold text-gray-900 dark:text-white">{{ $event->event_name }}</h3>
                             <span class="text-sm text-gray-500 dark:text-gray-400">{{ \Carbon\Carbon::parse($event->date)->format('M d, Y') }}</span>
                         </div>
                         <p class="text-gray-600 dark:text-gray-300 mb-4">{{ $event->event_place }}</p>
-                        
+
                         <!-- Event Details -->
                         <div class="space-y-3 mb-4">
                             <!-- Time -->
@@ -218,15 +219,15 @@
                         </div>
 
                         @auth
-                            <a 
-                                href="{{ route('eventdetails.show', $event->id) }}" 
+                            <a
+                                href="{{ route('eventdetails.show', $event->id) }}"
                                 class="inline-flex items-center justify-center w-full px-4 py-2 bg-gray-900 dark:bg-white text-white dark:text-gray-900 rounded-md hover:bg-gray-800 dark:hover:bg-gray-100 transition-colors duration-200"
                             >
                                 View Photos
                             </a>
                         @else
-                            <a 
-                                href="{{ route('login') }}" 
+                            <a
+                                href="{{ route('login') }}"
                                 class="inline-flex items-center justify-center w-full px-4 py-2 bg-gray-900 dark:bg-white text-white dark:text-gray-900 rounded-md hover:bg-gray-800 dark:hover:bg-gray-100 transition-colors duration-200"
                             >
                                 Login to View
@@ -253,11 +254,11 @@
                 <div class="flex items-center justify-center space-x-4">
                     <!-- Footer Logo -->
                     <a href="{{ url('/') }}" class="block">
-                        <img src="{{ asset('images/momentify.png') }}" 
-                            alt="Momentify Logo" 
+                        <img src="{{ asset('images/momentify.png') }}"
+                            alt="Momentify Logo"
                             class="h-6 w-auto block dark:hidden">
-                        <img src="{{ asset('images/momentify1.png') }}" 
-                            alt="Momentify Logo" 
+                        <img src="{{ asset('images/momentify1.png') }}"
+                            alt="Momentify Logo"
                             class="h-6 w-auto hidden dark:block">
                     </a>
                     <span class="text-sm text-gray-500 dark:text-gray-400">

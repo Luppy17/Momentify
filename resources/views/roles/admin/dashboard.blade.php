@@ -67,11 +67,11 @@
            <div class="flex justify-between items-center mb-4">
                <h2 class="text-lg font-semibold text-gray-800">User Logs</h2>
                <div class="flex gap-4">
-                   <input type="text" 
+                   <input type="text"
                        id="searchLogs"
-                       placeholder="Search all logs..." 
+                       placeholder="Search all logs..."
                        class="px-4 py-2 border rounded-lg text-gray-700 focus:outline-none focus:border-blue-500">
-                   <select id="statusFilter" 
+                   <select id="statusFilter"
                        class="px-4 py-2 border rounded-lg text-gray-700 focus:outline-none focus:border-blue-500">
                        <option value="">All Status</option>
                        <option value="success">Success</option>
@@ -85,7 +85,6 @@
                        <tr class="text-left bg-gray-50 dark:bg-black">
                            <th class="px-4 py-3 font-medium">User</th>
                            <th class="px-4 py-3 font-medium">Action</th>
-                           <th class="px-4 py-3 font-medium">Details</th>
                            <th class="px-4 py-3 font-medium">IP Address</th>
                            <th class="px-4 py-3 font-medium">Date & Time</th>
                            <th class="px-4 py-3 font-medium">Status</th>
@@ -106,7 +105,6 @@
                                </div>
                            </td>
                            <td class="px-4 py-4 truncate">{{ $log->action }}</td>
-                           <td class="px-4 py-4 truncate">{{ $log->details ?? 'No details' }}</td>
                            <td class="px-4 py-4">{{ $log->ip_address }}</td>
                            <td class="px-4 py-4">{{ $log->created_at->format('Y-m-d H:i') }}</td>
                            <td class="px-4 py-4">

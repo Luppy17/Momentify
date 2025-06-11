@@ -78,7 +78,7 @@ Route::middleware('auth', 'adminManagerPhotographer')
     });
 
 // Momentify Routes
-Route::middleware('auth', 'adminUser')
+Route::middleware('auth')
     ->controller(MomentifyController::class)
     ->prefix('momentify')
     ->name('momentify.')

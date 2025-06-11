@@ -23,12 +23,12 @@
                     <div class="flex-shrink-0 flex items-center">
                         <a href="{{ url('/') }}" class="block">
                             <!-- Light mode logo -->
-                            <img src="{{ asset('images/momentify.png') }}" 
-                                 alt="Momentify Logo" 
+                            <img src="{{ asset('images/momentify.png') }}"
+                                 alt="Momentify Logo"
                                  class="h-8 w-auto block dark:hidden">
                             <!-- Dark mode logo -->
-                            <img src="{{ asset('images/momentify1.png') }}" 
-                                 alt="Momentify Logo" 
+                            <img src="{{ asset('images/momentify1.png') }}"
+                                 alt="Momentify Logo"
                                  class="h-8 w-auto hidden dark:block">
                         </a>
                     </div>
@@ -50,7 +50,7 @@
                             <!-- Logout Button -->
                             <form method="POST" action="{{ route('logout') }}" class="inline-flex">
                                 @csrf
-                                <button type="submit" 
+                                <button type="submit"
                                         class="inline-flex items-center px-4 py-2 border border-transparent rounded-md text-sm font-medium bg-gray-900 text-white dark:bg-white dark:text-gray-900 hover:bg-gray-800 dark:hover:bg-gray-100 transition-colors duration-200">
                                     Logout
                                 </button>
@@ -113,12 +113,12 @@
             <div class="relative">
                 <div class="relative h-[80vh] overflow-hidden">
                     <!-- Background Image -->
-                    <img 
-                        src="{{ asset('images/waterfall.jpeg') }}" 
+                    <img
+                        src="{{ asset('images/waterfall.jpeg') }}"
                         alt="Professional Photography"
                         class="absolute inset-0 w-full h-full object-cover"
                     >
-                    
+
                     <!-- Gradient Overlay -->
                     <div class="absolute inset-0 bg-gradient-to-r from-black/70 via-black/50 to-black/30">
                         <!-- Content -->
@@ -128,37 +128,37 @@
                                     Capture Your Special
                                     <span class="rgb-text">Moments</span>
                                 </h1>
-                                
+
                                 <p class="text-xl md:text-2xl text-gray-200 mb-8">
                                     Effortless photo search for any occasion using advanced face recognition technology.
                                 </p>
                                 <div class="flex flex-col sm:flex-row gap-4">
                                     @auth
                                         @if(auth()->user()->is_user == 1)
-                                            <a 
-                                                href="{{ route('momentify.index') }}" 
+                                            <a
+                                                href="{{ route('momentify.index') }}"
                                                 class="inline-flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-black bg-white hover:bg-gray-100 transition duration-300 ease-in-out"
                                             >
                                                 Go to Momentify
                                             </a>
                                         @else
-                                            <a 
-                                                href="{{ url('/dashboard') }}" 
+                                            <a
+                                                href="{{ url('/dashboard') }}"
                                                 class="inline-flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-black bg-white hover:bg-gray-100 transition duration-300 ease-in-out"
                                             >
                                                 Go to Dashboard
                                             </a>
                                         @endif
                                     @else
-                                        <a 
-                                            href="{{ route('register') }}" 
+                                        <a
+                                            href="{{ route('register') }}"
                                             class="inline-flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-black bg-white hover:bg-gray-100 transition duration-300 ease-in-out"
                                         >
                                             Get Started
                                         </a>
                                     @endauth
-                                    <a 
-                                        href="#services" 
+                                    <a
+                                        href="#services"
                                         class="inline-flex items-center justify-center px-8 py-3 border-2 border-white text-base font-medium rounded-md text-white hover:bg-white hover:text-black transition duration-300 ease-in-out smooth-scroll"
                                     >
                                         Our Services
@@ -189,26 +189,30 @@
                     <!-- Event Folders Grid -->
                     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                         @foreach($events as $event)
-                        <a href="{{ route('eventdetails.show', $event->id) }}" class="block bg-gray-50 dark:bg-gray-700 rounded-lg overflow-hidden shadow-lg transition-transform hover:scale-105">
-                            <div class="aspect-w-16 aspect-h-9">
-                                <img 
-                                    src="{{ asset('images/event-default.jpg') }}" 
+                        <a href="{{ route('eventdetails.show', $event->id) }}" class="group block bg-gray-50 dark:bg-gray-700 rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 ease-in-out transform hover:-translate-y-1">
+                            <div class="relative aspect-w-16 aspect-h-9">
+                                <img
+                                    src="{{ $event->cover_image ? asset('storage/event_covers/' . $event->cover_image) : asset('storage/images/event-default.jpg') }}"
                                     alt="{{ $event->event_name }}"
-                                    class="w-full h-48 object-cover"
+                                    class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
                                 >
+                                <div class="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                             </div>
-                            <div class="p-6">
-                                <div class="flex justify-between items-start mb-2">
-                                    <h3 class="text-xl font-semibold text-gray-900 dark:text-white">{{ $event->event_name }}</h3>
-                                    <span class="text-sm text-gray-500 dark:text-gray-400">{{ \Carbon\Carbon::parse($event->date)->format('M d, Y') }}</span>
+                            <div class="p-5">
+                                <div class="flex justify-between items-center mb-3">
+                                    <h3 class="text-lg font-semibold text-gray-900 dark:text-white truncate" title="{{ $event->event_name }}">{{ $event->event_name }}</h3>
+                                    <span class="text-xs text-gray-500 dark:text-gray-400 whitespace-nowrap">{{ \Carbon\Carbon::parse($event->date)->format('M d, Y') }}</span>
                                 </div>
-                                <p class="text-gray-600 dark:text-gray-300 mb-4">{{ $event->event_place }}</p>
-                                
+
                                 <!-- Event Details -->
-                                <div class="space-y-3 mb-4">
+                                <div class="space-y-2 text-sm text-gray-600 dark:text-gray-300">
+                                    <div class="flex items-center">
+                                        <svg class="w-4 h-4 mr-2 text-gray-400 dark:text-gray-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                                        <span class="truncate" title="{{ $event->event_place }}">{{ $event->event_place }}</span>
+                                    </div>
                                     <!-- Time -->
-                                    <div class="flex items-center text-gray-500 dark:text-gray-400">
-                                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <div class="flex items-center">
+                                        <svg class="w-4 h-4 mr-2 text-gray-400 dark:text-gray-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
                                         </svg>
                                         <span>{{ \Carbon\Carbon::parse($event->time)->format('g:i A') }}</span>
@@ -235,11 +239,11 @@
                 <div class="flex items-center justify-center space-x-4">
                     <!-- Footer Logo -->
                     <a href="{{ url('/') }}" class="block">
-                        <img src="{{ asset('images/momentify.png') }}" 
-                            alt="Momentify Logo" 
+                        <img src="{{ asset('images/momentify.png') }}"
+                            alt="Momentify Logo"
                             class="h-6 w-auto block dark:hidden">
-                        <img src="{{ asset('images/momentify1.png') }}" 
-                            alt="Momentify Logo" 
+                        <img src="{{ asset('images/momentify1.png') }}"
+                            alt="Momentify Logo"
                             class="h-6 w-auto hidden dark:block">
                     </a>
                     <span class="text-sm text-gray-500 dark:text-gray-400">
