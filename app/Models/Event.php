@@ -15,6 +15,7 @@ class Event extends Model
         'date',
         'time',
         'event_place',
+        'cover_image',
     ];
 
     public function photographers()

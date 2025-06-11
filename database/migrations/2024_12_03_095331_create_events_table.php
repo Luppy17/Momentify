@@ -17,6 +17,7 @@ return new class extends Migration
             $table->date('date');
             $table->time('time');
             $table->string('event_place');
+            $table->string('cover_image')->nullable();
             $table->timestamps();
         });
     }

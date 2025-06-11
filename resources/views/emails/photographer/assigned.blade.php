@@ -5,9 +5,9 @@ Hi {{ $photographerName }},
 
 You have been assigned to a new event:
 
-**Event Name:** {{ $eventName }}
-**Date:** {{ $eventDate }}
-**Time:** {{ $eventTime }}
+**Event Name:** {{ $eventName }}<br>
+**Date:** {{ $eventDate }}<br>
+**Time:** {{ $eventTime }}<br>
 **Place:** {{ $eventPlace }}
 
 You can view the event details here:
