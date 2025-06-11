@@ -33,6 +33,31 @@
                     </x-form.input-with-icon-wrapper>
                 </div>
 
+                <!-- Role -->
+                <div class="space-y-2">
+                    <x-form.label
+                        for="role"
+                        :value="__('I am a...')"
+                    />
+
+                    <x-form.input-with-icon-wrapper>
+                        <x-slot name="icon">
+                            <x-heroicon-o-briefcase aria-hidden="true" class="w-5 h-5" />
+                        </x-slot>
+
+                        <select
+                            id="role"
+                            name="role"
+                            class="block w-full pl-10 pr-3 py-2 border border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm"
+                            required
+                        >
+                            <option value="" disabled selected>{{ __('Select your role') }}</option>
+                            <option value="event_manager" {{ old('role') == 'event_manager' ? 'selected' : '' }}>{{ __('Event Manager') }}</option>
+                            <option value="photographer" {{ old('role') == 'photographer' ? 'selected' : '' }}>{{ __('Photographer') }}</option>
+                        </select>
+                    </x-form.input-with-icon-wrapper>
+                </div>
+
                 <!-- Email Address -->
                 <div class="space-y-2">
                     <x-form.label

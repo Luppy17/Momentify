@@ -15,16 +15,16 @@ class MomentifyController extends Controller
     {
         // Get the search query if provided
         $search = $request->input('search');
-        
+
         // Get events with photographers
         $events = Event::with('photographers')
             ->when($search, function ($query) use ($search) {
                 return $query->where('event_name', 'like', '%' . $search . '%')
-                           ->orWhere('event_place', 'like', '%' . $search . '%');
+                            ->orWhere('event_place', 'like', '%' . $search . '%');
             })
             ->latest()
             ->get();
-        
+
         return view('momentify.index', compact('search', 'events'));
     }
 
@@ -37,7 +37,7 @@ class MomentifyController extends Controller
         $events = Event::with('photographers')
             ->latest()
             ->get();
-        
+
         return view('welcome', compact('events'));
     }
 }

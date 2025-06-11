@@ -6,6 +6,8 @@ use App\Models\Event;
 use App\Models\EventImage;
 use App\Models\Photographer;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\PhotographerAssignedToEvent;
 use Illuminate\Support\Facades\Storage;
 use Aws\Rekognition\RekognitionClient;
 use App\Models\Image;
@@ -49,7 +51,12 @@ class EventDetailController extends Controller
             'photographer_id' => 'required|exists:photographers,id',
         ]);
 
-        $event->photographers()->attach($request->photographer_id);
+        $photographer = Photographer::findOrFail($request->photographer_id);
+
+        $event->photographers()->attach($photographer->id);
+
+        // Send email to photographer
+        Mail::to($photographer->email)->send(new PhotographerAssignedToEvent($event, $photographer));
 
         return redirect()->back()->with('success', 'Photographer assigned successfully!');
     }
@@ -92,7 +99,7 @@ class EventDetailController extends Controller
                         'secret' => env('AWS_SECRET_ACCESS_KEY'),
                     ],
                 ]);
-            
+
                 $result = $rekognition->indexFaces([
                     'CollectionId' => env('AWS_REKOGNITION_COLLECTION'),
                     'Image' => ['S3Object' => [
@@ -112,8 +119,8 @@ class EventDetailController extends Controller
     {
         // Delete the file from storage
         Storage::disk('s3')->delete($image->path);
-        
-        
+
+
         // Delete the database record
         $image->delete();
 
@@ -141,7 +148,7 @@ class EventDetailController extends Controller
         ]);
 
         $similarImages = [];
-        
+
         // Only search for similar faces if the image contains faces
         if (!empty($detectResult['FaceDetails'])) {
             // Search for similar faces in the collection
@@ -161,7 +168,7 @@ class EventDetailController extends Controller
                     $similarImage = EventImage::where('path', 'like', '%' . $match['Face']['ExternalImageId'])
                         ->where('id', '!=', $image->id)
                         ->first();
-                    
+
                     if ($similarImage) {
                         $similarImages[] = [
                             'image' => $similarImage,
@@ -179,10 +186,10 @@ class EventDetailController extends Controller
     {
         // Get the file from S3
         $file = Storage::disk('s3')->get($image->path);
-        
+
         // Get the file name from the path
         $filename = basename($image->path);
-        
+
         // Return the file as a download
         return response($file)
             ->header('Content-Type', 'image/jpeg')

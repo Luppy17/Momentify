@@ -34,7 +34,8 @@ class NormalUserRoleManagementController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-            'is_user' => 1
+            'is_user' => 1,
+            'status' => 'active',
         ]);
 
         return redirect()->route('role.management.normal.user.index')->with('success', 'User created successfully!');

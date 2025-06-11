@@ -6,6 +6,8 @@ use App\Models\User;
 use App\Models\Photographer;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rules;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\AccountActivated;
 use Illuminate\Support\Facades\Hash;
 
 class PhotographerRoleManagementController extends Controller
@@ -35,7 +37,8 @@ class PhotographerRoleManagementController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-            'is_photographer' => 1
+            'is_photographer' => 1,
+            'status' => 'active',
         ]);
 
         Photographer::create([
@@ -52,6 +55,12 @@ class PhotographerRoleManagementController extends Controller
         $photographer->update(['status' => $photographer->status === 'active' ? 'inactive' : 'active']);
 
         $message = $photographer->status === 'active' ? 'activated' : 'deactivated';
+
+        if ($photographer->status === 'active') {
+            // Send email notification
+            Mail::to($photographer->email)->send(new AccountActivated($photographer));
+        }
+        
         return redirect()->route('role.management.photographer.index')->with('success', "Photographer {$message} successfully!");
     }
 }
